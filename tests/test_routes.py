@@ -11,7 +11,7 @@ from unittest import TestCase
 from tests.factories import AccountFactory
 from service.common import status  # HTTP Status Codes
 from service.models import db, Account, init_db
-from service.routes import app, list_all
+from service.routes import app
 
 DATABASE_URI = os.getenv(
     "DATABASE_URI", "postgresql://postgres:postgres@localhost:5432/postgres"
@@ -137,5 +137,22 @@ class TestAccountService(TestCase):
         account_id = 0
         account = self.client.get(f'{BASE_URL}/{account_id}')
         self.assertEqual(account.status_code, status.HTTP_404_NOT_FOUND)
+
+    
+    def test_list_all_accounts(self):
+        """It should get a list of accounts""" 
+        accounts = self._create_accounts(5)
+        response = self.client.get(f'{BASE_URL}')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        data = response.get_json()
+        self.assertEqual(len(data), len(accounts))
+
+    def test_list_all_accounts_empty(self):
+        """It should return an empty list"""
+        accounts = []
+        response = self.client.get(f'{BASE_URL}')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        data = response.get_json()
+        self.assertEqual(data, [])
 
 
