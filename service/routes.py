@@ -104,12 +104,17 @@ def update(account_id):
     return account.serialize(), status.HTTP_200_OK
 
 
-
 ######################################################################
 # DELETE AN ACCOUNT
 ######################################################################
+@app.route("/accounts/<int:account_id>", methods=["DELETE"])
+def delete(account_id):
+    """Delete an Account"""
+    account = Account.find(account_id)
+    if account:
+        account.delete()
 
-# ... place you code here to DELETE an account ...
+    return "", status.HTTP_204_NO_CONTENT
 
 
 ######################################################################
