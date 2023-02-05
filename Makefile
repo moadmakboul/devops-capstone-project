@@ -67,6 +67,7 @@ db: ## Run PostgreSQL in Docker
 	$(info Running PostgreSQL...)
 	docker run -d --name postgresql \
 		-p 5432:5432 \
-		-e POSTGRES_PASSWORD=pgs3cr3t \
+		-e POSTGRES_HOST_AUTH_METHOD=trust \
+		-e POSTGRES_PASSWORD=postgres \
 		-v postgresql:/var/lib/postgresql/data \
 		postgres:alpine
