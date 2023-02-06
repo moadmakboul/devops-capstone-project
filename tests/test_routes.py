@@ -140,8 +140,7 @@ class TestAccountService(TestCase):
         account_id = 0
         account = self.client.get(f'{BASE_URL}/{account_id}')
         self.assertEqual(account.status_code, status.HTTP_404_NOT_FOUND)
-
-    
+  
     def test_list_all_accounts(self):
         """It should get a list of accounts""" 
         accounts = self._create_accounts(5)
@@ -152,7 +151,6 @@ class TestAccountService(TestCase):
 
     def test_list_all_accounts_empty(self):
         """It should return an empty list"""
-        accounts = []
         response = self.client.get(f'{BASE_URL}')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         data = response.get_json()
@@ -188,13 +186,6 @@ class TestAccountService(TestCase):
         """It should not allow an illegal method call"""
         response = self.client.delete(BASE_URL)
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
-
-
-    def test_method_not_allowed(self):
-        """It should not allow an illegal method call"""
-        response = self.client.delete(BASE_URL)
-        self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
-
     
     def test_HTTP_headers(self):
         """It should return headers"""
